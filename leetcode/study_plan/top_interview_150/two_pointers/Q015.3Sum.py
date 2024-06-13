@@ -3,10 +3,17 @@ class Solution:
         ans = set()
         n = len(nums)
         nums.sort()
-        for i in range(n):
-            for j in range(i + 1, n):
-                for k in range(j + 1, n):
-                    if nums[i] + nums[j] + nums[k]  == 0:
-                        if (nums[i],nums[j],nums[k]) not in ans:
-                            ans.add((nums[i] ,nums[j] ,nums[k]))
+        s = 0
+        l, r = 0,0
+        for i in range(n - 2):
+            l = i + 1
+            r = n - 1
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
+                if s == 0:
+                    ans.add((nums[i] ,nums[l] ,nums[r]))
+                if s <= 0:
+                    l += 1
+                else:
+                    r -= 1
         return ans

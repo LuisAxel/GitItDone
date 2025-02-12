@@ -10,7 +10,7 @@ def count_visited_in_maze(row, col, direction):
         
         # Loop found, exit
         if direction in visited[(row, col)]:
-            break
+            return len(visited.keys()) 
         
         visited[(row, col)].add(direction)
 

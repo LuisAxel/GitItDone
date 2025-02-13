@@ -17,7 +17,7 @@ def check_equation(target, operands):
     while queue:
         value, next_operand_idx = queue.popleft()
         
-        if next_operand_idx == len(operands) and value == target :
+        if next_operand_idx == len(operands) and value == target:
             return target
 
         if next_operand_idx >= len(operands):

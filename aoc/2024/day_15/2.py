@@ -1,5 +1,3 @@
-from collections import deque
-
 warehouse = []
 instructions = []
 directions = {'^' : (-1, 0), '>' : (0, 1), 'v' : (1, 0), '<' : (0, -1)}

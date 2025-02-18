@@ -3,7 +3,7 @@ from collections import deque
 warehouse = []
 instructions = []
 directions = {'^' : (-1, 0), '>' : (0, 1), 'v' : (1, 0), '<' : (0, -1)}
-wall, box, empty, robot = '#', ('[', ']'), '.', '@'
+wall, old_box, box, empty, robot = '#', 'O', ['[', ']'], '.', '@'
 
 with open("warehouse.txt") as file:
     reading_warehoue = True
@@ -22,7 +22,7 @@ with open("warehouse.txt") as file:
 
 def push_box_up_down(warehouse, row, col, direction):
     left = col - 1 if warehouse[row][col] == box[1] else col
-    
+
     boxes_to_push = [(row, left)]
     pushing_boxes = [(row, left)]
     while pushing_boxes:
@@ -106,24 +106,29 @@ def sum_of_gps(warehouse):
     return gps_sum
 
 def resize_warehouse(warehouse):
-    new_warehouse = []
+    expanded_warehouse = []
     rows, cols = len(warehouse), len(warehouse[0])
+
     for row in range(rows):
-        new_warehouse.append([])
+        new_row = []
         for col in range(cols):
-            if warehouse[row][col] == robot:
-                new_warehouse[row].append(robot)
-                new_warehouse[row].append(empty)
-            elif warehouse[row][col] == wall or warehouse[row][col] == empty:
-                new_warehouse[row].append(warehouse[row][col])
-                new_warehouse[row].append(warehouse[row][col])
-            else:
-                new_warehouse[row].append(box[0])
-                new_warehouse[row].append(box[1])
-    return new_warehouse
+            tile = warehouse[row][col]
+            
+            if tile == robot:
+                new_row.extend([robot, empty])
+            elif tile in {wall, empty}:
+                new_row.extend([tile, tile])
+            elif tile == old_box:
+                new_row.extend(box)
+            
+        expanded_warehouse.append(new_row)
+
+    return expanded_warehouse
+
 
 warehouse = resize_warehouse(warehouse)
 row, col = initial_position(warehouse)
+
 for instruction in instructions:
     row, col = move_robot(warehouse, row, col, directions[instruction])
 

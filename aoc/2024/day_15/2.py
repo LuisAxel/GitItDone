@@ -123,7 +123,6 @@ def resize_warehouse(warehouse):
 
     return expanded_warehouse
 
-
 warehouse = resize_warehouse(warehouse)
 row, col = initial_position(warehouse)
 
